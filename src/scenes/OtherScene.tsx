@@ -8,6 +8,9 @@ import TileMap, { TileMapResolver } from '../@core/TileMap';
 import { mapDataString } from '../@core/utils/mapUtils';
 import Player from '../entities/Player';
 import spriteData from '../spriteData';
+import Pnj from '../entities/Pnj';
+import Sound from '../@core/Sound';
+import soundData from '../soundData';
 
 const mapData = mapDataString(`
 # # # # # #
@@ -51,8 +54,10 @@ export default function OtherScene() {
                 <Collider />
                 <Interactable />
                 <ScenePortal name="start" enterDirection={[1, 0]} target="office/exit" />
+                <Sound {...soundData.loose} />
             </GameObject>
             <Player x={0} y={2} />
+            <Pnj x={1} y={2} />
         </>
     );
 }

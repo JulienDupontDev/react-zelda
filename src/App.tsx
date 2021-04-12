@@ -1,5 +1,6 @@
 import { css, Global } from '@emotion/core';
 import React from 'react';
+import { Provider } from 'react-redux';
 import AssetLoader from './@core/AssetLoader';
 import Game from './@core/Game';
 import Scene from './@core/Scene';
@@ -10,6 +11,7 @@ import OtherScene from './scenes/OtherScene';
 import soundData from './soundData';
 import spriteData from './spriteData';
 import globalStyles from './styles/global';
+import store from './store';
 
 const styles = {
     root: (width: number, height: number) => css`
@@ -31,7 +33,7 @@ export default function App() {
     const [width, height] = useWindowSize();
 
     return (
-        <>
+        <Provider store={store}>
             <Global styles={globalStyles} />
             <div css={styles.root(width, height)}>
                 <Game cameraZoom={80}>
@@ -47,6 +49,6 @@ export default function App() {
                     </AssetLoader>
                 </Game>
             </div>
-        </>
+        </Provider>
     );
 }

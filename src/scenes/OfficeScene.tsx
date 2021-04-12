@@ -6,19 +6,24 @@ import ScenePortal from '../@core/ScenePortal';
 import Sprite from '../@core/Sprite';
 import TileMap, { TileMapResolver } from '../@core/TileMap';
 import { mapDataString } from '../@core/utils/mapUtils';
-import CoffeeMachine from '../entities/CoffeeMachine';
+import Chest from '../entities/Chest';
 import PizzaPickup from '../entities/PizzaPickup';
 import Plant from '../entities/Plant';
 import Player from '../entities/Player';
 import Workstation from '../entities/Workstation';
 import spriteData from '../spriteData';
+import Pnj from '../entities/Pnj';
 
 const mapData = mapDataString(`
 # # # # # # # # # # # # # # # # #
-# · W T # T · · W T · W · · · T #
+# · · · · · · · · · · · · · · · #
+# · · · · · · · · · · · · · · · #
+# · · · · · · · · · · · · · · · #
+# · · · · · · · · · · · · · · · #
+# · # T # T · · # T · # · · · T #
 # · · · · · · · · · · · · · · o ·
 # o · · # · · · # # # # · · # # #
-# # # # # · · · # W o W · · T W #
+# # # # # · · · # # o # · · T # #
 # C C C # · · · T · · · · · · · #
 # o · · · · · · · · · · · · · o #
 # # # # # # # # # # # # # # # # #
@@ -62,7 +67,7 @@ const resolveMapTile: TileMapResolver = (type, x, y) => {
             return (
                 <Fragment key={key}>
                     {floor}
-                    <CoffeeMachine {...position} />
+                    <Chest {...position} />
                 </Fragment>
             );
         case 'T':
@@ -84,12 +89,13 @@ export default function OfficeScene() {
                 <ambientLight />
                 <TileMap data={mapData} resolver={resolveMapTile} definesMapSize />
             </GameObject>
-            <GameObject x={16} y={5}>
+            <GameObject x={14} y={5}>
                 <Collider />
                 <Interactable />
                 <ScenePortal name="exit" enterDirection={[-1, 0]} target="other/start" />
             </GameObject>
-            <Player x={6} y={3} />
+            <Player x={5} y={2} />
+            <Pnj x={6} y={2} sheet="player" />
         </>
     );
 }

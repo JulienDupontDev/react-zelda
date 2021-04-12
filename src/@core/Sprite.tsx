@@ -12,6 +12,7 @@ export type SpriteRef = ComponentRef<
         setFlipX: Dispatch<SetStateAction<number>>;
         setScale: Dispatch<SetStateAction<number>>;
         setOffset: Dispatch<SetStateAction<Position>>;
+        setCurrentSheet: Dispatch<SetStateAction<object>>;
         flipX: number;
         nodeRef: RefObject<THREE.Object3D>;
     }
@@ -36,7 +37,8 @@ export default function Sprite({
     const [offset, setOffset] = useState(initialOffset);
     const [scale, setScale] = useState(initialScale);
     const nodeRef = useRef<THREE.Object3D>();
-
+    const [currentSheet, setCurrentSheet] = useState(sheet);
+    console.log(state);
     useComponentRegistry<SpriteRef>('Sprite', {
         setColor,
         setOpacity,
@@ -44,16 +46,15 @@ export default function Sprite({
         setOffset,
         setScale,
         setFlipX,
+        setCurrentSheet,
         flipX,
         nodeRef,
     });
-
     return (
         <Graphic
             ref={nodeRef}
-            sheet={sheet}
+            sheet={currentSheet}
             state={state}
-            flipX={flipX}
             color={color}
             opacity={opacity}
             offset={offset}

@@ -5,6 +5,12 @@ const soundData: { [index: string]: SoundProps } = {
         // "Chewing" by InspectorJ - freesound.org
         src: './assets/sfx/eating.wav',
     },
+    openChest: {
+        src: './assets/sfx/chest-open.mp3',
+    },
+    loose: {
+        src: './assets/sfx/loose.mp3',
+    },
     drinking: {
         // "Drinking" by dersuperanton - freesound.org"
         src: './assets/sfx/drinking.wav',

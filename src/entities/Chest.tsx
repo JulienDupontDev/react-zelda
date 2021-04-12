@@ -8,16 +8,16 @@ import useGameObject from '../@core/useGameObject';
 import useGameObjectEvent from '../@core/useGameObjectEvent';
 import soundData from '../soundData';
 import spriteData from '../spriteData';
+import { Dispatch } from 'redux';
 
-function CoffeeScript() {
+function ChestScript() {
     const { getComponent } = useGameObject();
     const fillState = useRef(true);
-    const playSfx = useSound(soundData.drinking);
-
+    const playSfx = useSound(soundData.openChest);
     useGameObjectEvent<InteractionEvent>('interaction', () => {
         if (fillState.current) {
             fillState.current = false;
-            getComponent<SpriteRef>('Sprite').setState('coffee-machine-empty');
+            getComponent<SpriteRef>('Sprite').setState('chest-open');
             playSfx();
         }
     });
@@ -25,13 +25,13 @@ function CoffeeScript() {
     return null;
 }
 
-export default function CoffeeMachine(props: GameObjectProps) {
+export default function Chest(props: GameObjectProps) {
     return (
         <GameObject {...props}>
-            <Sprite {...spriteData.objects} state="coffee-machine" />
+            <Sprite {...spriteData.objects} state="chest-closed" />
             <Collider />
             <Interactable />
-            <CoffeeScript />
+            <ChestScript />
         </GameObject>
     );
 }

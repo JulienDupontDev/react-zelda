@@ -10,12 +10,12 @@ import {
     WillMoveEvent,
 } from '../@core/Moveable';
 import { useScene } from '../@core/Scene';
-import Sound from '../@core/Sound';
+// import Sound from '../@core/Sound';
 import { SpriteRef } from '../@core/Sprite';
 import useGameLoop from '../@core/useGameLoop';
 import useGameObject from '../@core/useGameObject';
 import useGameObjectEvent from '../@core/useGameObjectEvent';
-import soundData from '../soundData';
+// import soundData from '../soundData';
 import spriteData from '../spriteData';
 
 interface Props {
@@ -47,7 +47,19 @@ export default function CharacterScript({ children }: Props) {
             const sprite = getComponent<SpriteRef>('Sprite');
             const dirX = Math.max(-1, Math.min(1, x - transform.x)) as Direction;
             const dirY = Math.max(-1, Math.min(1, y - transform.y)) as Direction;
-            if (dirX) sprite.setFlipX(dirX);
+            if (dirX > 0 && transform.x !== dirX) {
+                console.log('walkRight');
+                sprite.setState('walkRight');
+            }
+            if (dirX < 0 && transform.x !== dirX) {
+                sprite.setState('walkLeft');
+            }
+            if (dirY > 0 && transform.y !== dirY) {
+                sprite.setState('walkUp');
+            }
+            if (dirY < 0 && transform.y !== dirY) {
+                sprite.setState('walkDown');
+            }
             return [dirX, dirY];
         },
         [transform, getComponent]
@@ -94,7 +106,7 @@ export default function CharacterScript({ children }: Props) {
                         offset={{ x: 0, y: characterOffsetY }}
                         onIteration={() => removeInstance()}
                     />
-                    <Sound {...soundData.footstep} />
+                    {/* <Sound {...soundData.footstep} /> */}
                 </GameObject>
             );
         },
@@ -130,6 +142,13 @@ export default function CharacterScript({ children }: Props) {
 
     useGameObjectEvent<DidMoveEvent>('did-move', () => {
         movementActive.current = false;
+        setTimeout(() => {
+            if (!movementActive.current) {
+                const sprite = getComponent<SpriteRef>('Sprite');
+                sprite.setState('default');
+            }
+        }, 600);
+        // TODO remettre le defaut state nécessaire
     });
 
     useGameLoop(time => {
