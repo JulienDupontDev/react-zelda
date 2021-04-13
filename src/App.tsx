@@ -37,7 +37,7 @@ export default function App() {
             <Global styles={globalStyles} />
             <div css={styles.root(width, height)}>
                 <Game cameraZoom={80}>
-                    <AssetLoader urls={urls} placeholder="Loading assets ...">
+                    <AssetLoader urls={urls} placeholder="Chargement des fichiers ...">
                         <SceneManager defaultScene="office">
                             <Scene id="office">
                                 <OfficeScene />

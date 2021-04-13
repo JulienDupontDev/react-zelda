@@ -55,7 +55,7 @@ export default memo(
         if (!sheet[state]) {
             // eslint-disable-next-line no-console
             console.warn(
-                `Sprite state '${state}' does not exist in sheet '${src}':`,
+                `La sprite '${state}' n'existe pas dans les définitions de '${src}':`,
                 Object.keys(sheet)
             );
         }

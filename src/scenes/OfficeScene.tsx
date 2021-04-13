@@ -7,12 +7,12 @@ import Sprite from '../@core/Sprite';
 import TileMap, { TileMapResolver } from '../@core/TileMap';
 import { mapDataString } from '../@core/utils/mapUtils';
 import Chest from '../entities/Chest';
-import PizzaPickup from '../entities/PizzaPickup';
-import Plant from '../entities/Plant';
 import Player from '../entities/Player';
-import Workstation from '../entities/Workstation';
+import Water from '../entities/Water';
 import spriteData from '../spriteData';
 import Pnj from '../entities/Pnj';
+import { connect, Provider } from 'react-redux';
+import store from '../store';
 
 const mapData = mapDataString(`
 # # # # # # # # # # # # # # # # #
@@ -20,12 +20,12 @@ const mapData = mapDataString(`
 # · · · · · · · · · · · · · · · #
 # · · · · · · · · · · · · · · · #
 # · · · · · · · · · · · · · · · #
-# · # T # T · · # T · # · · · T #
-# · · · · · · · · · · · · · · o ·
-# o · · # · · · # # # # · · # # #
-# # # # # · · · # # o # · · T # #
-# C C C # · · · T · · · · · · · #
-# o · · · · · · · · · · · · · o #
+# · # # # # · · # # · # · · · W #
+# · · · · · · · · · · · · · · · ·
+# · · · # · · · # # # # · · # # #
+# # # # # · · · # # · # · · W # #
+# C C C # · · · W · · · · · · · #
+# · · · · · · · · · · · · W · · #
 # # # # # # # # # # # # # # # # #
 `);
 
@@ -42,13 +42,6 @@ const resolveMapTile: TileMapResolver = (type, x, y) => {
     switch (type) {
         case '·':
             return floor;
-        case 'o':
-            return (
-                <Fragment key={key}>
-                    {floor}
-                    <PizzaPickup {...position} />
-                </Fragment>
-            );
         case '#':
             return (
                 <GameObject key={key} {...position} layer="wall">
@@ -60,22 +53,17 @@ const resolveMapTile: TileMapResolver = (type, x, y) => {
             return (
                 <Fragment key={key}>
                     {floor}
-                    <Workstation {...position} />
+                    <Water {...position} layer="wall" />
                 </Fragment>
             );
         case 'C':
             return (
-                <Fragment key={key}>
-                    {floor}
-                    <Chest {...position} />
-                </Fragment>
-            );
-        case 'T':
-            return (
-                <Fragment key={key}>
-                    {floor}
-                    <Plant {...position} />
-                </Fragment>
+                <Provider store={store}>
+                    <Fragment key={key}>
+                        {floor}
+                        <Chest {...position} />
+                    </Fragment>
+                </Provider>
             );
         default:
             return null;
@@ -89,7 +77,7 @@ export default function OfficeScene() {
                 <ambientLight />
                 <TileMap data={mapData} resolver={resolveMapTile} definesMapSize />
             </GameObject>
-            <GameObject x={14} y={5}>
+            <GameObject x={15} y={5}>
                 <Collider />
                 <Interactable />
                 <ScenePortal name="exit" enterDirection={[-1, 0]} target="other/start" />

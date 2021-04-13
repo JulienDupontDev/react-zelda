@@ -1,8 +1,11 @@
 import React, { useMemo, useRef, useState } from 'react';
+import { playerActions } from '../features/player';
 import { SceneExitEvent, ScenePreExitEvent } from './Scene';
 import useGame from './useGame';
 import { SceneStoreProvider } from './useGameObjectStore';
 import waitForMs from './utils/waitForMs';
+import { connect, Provider } from 'react-redux';
+import store from '../store';
 
 export interface SceneManagerContextValue {
     currentScene: string;
@@ -21,8 +24,7 @@ interface Props {
     defaultScene: string;
     children: React.ReactNode;
 }
-
-export default function SceneManager({ defaultScene, children }: Props) {
+const SceneManager = ({ defaultScene, children }: Props) => {
     const { publish } = useGame();
     // support scene string format: 'sceneId:level'
     const [initialScene, initialLevel = 0] = defaultScene.split(':');
@@ -88,8 +90,14 @@ export default function SceneManager({ defaultScene, children }: Props) {
     );
 
     return (
-        <SceneManagerContext.Provider value={api}>
-            <SceneStoreProvider>{children}</SceneStoreProvider>
-        </SceneManagerContext.Provider>
+        <Provider store={store}>
+            <SceneManagerContext.Provider value={api}>
+                <SceneStoreProvider>{children}</SceneStoreProvider>
+            </SceneManagerContext.Provider>
+        </Provider>
     );
-}
+};
+const dispatchProps = {
+    setExp: playerActions.setExp,
+};
+export default SceneManager;

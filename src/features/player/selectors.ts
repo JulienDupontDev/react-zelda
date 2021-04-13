@@ -1,6 +1,8 @@
-import * as countersConstants from './constants';
-import * as countersActions from './actions';
-import countersReducer from './reducer';
-import * as countersSelectors from './selectors';
+import { Player } from './models';
 
-export { countersConstants, countersActions, countersSelectors, countersReducer };
+export const getPosition = (state: Player) => {
+    return { x: state.positionX, y: state.positionY };
+};
+
+export const getLife = (state: Player) => state.life;
+export const getExp = (state: Player) => state.exp;

@@ -1,15 +1,11 @@
 /* eslint-disable */
 import { action } from 'typesafe-actions';
 
-import { SET_LIFE, SET_EXP, SET_POSITION, ADD_ITEM } from './constants';
+import { SET_LIFE } from './constants';
 
 /* SIMPLE API */
 
 export const setLife = (amount: number) => action(SET_LIFE, amount);
-export const setExp = (amount: number) => action(SET_EXP, amount);
-export const setPosition = (position: object) => action(SET_POSITION, position);
-
-export const addItem = (item: string) => action(ADD_ITEM, item);
 
 /* ADVANCED API */
 

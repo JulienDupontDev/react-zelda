@@ -25,9 +25,9 @@ export default function PnjScript() {
 
     setInterval(() => {
         leftKey = !leftKey;
-        rightKey = !!leftKey;
-        upKey = !!leftKey;
-        downKey = !!upKey;
+        rightKey = leftKey;
+        upKey = !!downKey;
+        downKey = !upKey;
     }, 2000);
 
     useGameLoop(() => {

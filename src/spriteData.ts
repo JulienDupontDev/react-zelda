@@ -83,17 +83,16 @@ const spriteData: { [index: string]: SpriteProps } = {
     },
     objects: {
         src: './assets/objects.png',
-        frameWidth: 266,
+        frameWidth: 265,
         frameHeight: 260,
         sheet: {
             floor: [[1, 0]],
             wall: [[0, 0]],
             'chest-closed': [[0, 1]],
             'chest-open': [[1, 1]],
-            'coffee-machine': [[0, 1]],
+            water: [[2, 1]],
             'coffee-machine-empty': [[1, 1]],
             pizza: [[0, 1]],
-            plant: [[2, 1]],
         },
     },
     footstep: {

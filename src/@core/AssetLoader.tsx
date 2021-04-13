@@ -91,7 +91,7 @@ export default function AssetLoader({ urls: urlsProp, placeholder, children }: P
                     if (mounted.current) setCount(current => current + 1);
                 } catch {
                     // eslint-disable-next-line no-console
-                    console.error('Error loading asset:', url);
+                    console.error('Erreur survenue lors du chargement:', url);
                 }
             }
             clearTimeout(timeout.current);
@@ -106,7 +106,7 @@ export default function AssetLoader({ urls: urlsProp, placeholder, children }: P
                 setCount(0);
                 setUrls(urls.slice());
                 // eslint-disable-next-line no-console
-                console.warn('AssetLoader failed loading after timeout.');
+                console.warn('timeout');
             }, delay);
             return () => clearTimeout(timeout.current);
         }

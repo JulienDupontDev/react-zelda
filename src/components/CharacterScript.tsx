@@ -17,10 +17,19 @@ import useGameObject from '../@core/useGameObject';
 import useGameObjectEvent from '../@core/useGameObjectEvent';
 // import soundData from '../soundData';
 import spriteData from '../spriteData';
+import { connect, Provider } from 'react-redux';
+import { RootAction, RootState } from '../store/types.d';
+import { Player } from 'src/features/player/models';
+import { playerActions, playerSelectors } from '../features/player';
+import { bindActionCreators, Dispatch } from 'redux';
+import store from '../store';
+import { stateContext } from 'react-three-fiber';
 
 interface Props {
     interactionSound?: React.ReactElement;
     children: React.ReactNode;
+    setLife: (life) => void;
+    setPosition: (position) => void;
 }
 
 export const characterOffsetY = 0.25;
@@ -31,7 +40,7 @@ export const characterOffsetY = 0.25;
  * It also applies a breathe animation when the character is standing still.
  */
 
-export default function CharacterScript({ children }: Props) {
+const CharacterScriptTest = ({ children, setLife, setPosition }: Props) => {
     const { transform, getComponent } = useGameObject();
     const { instantiate } = useScene();
     const groupRef = useRef<THREE.Group>();
@@ -145,7 +154,9 @@ export default function CharacterScript({ children }: Props) {
         setTimeout(() => {
             if (!movementActive.current) {
                 const sprite = getComponent<SpriteRef>('Sprite');
-                sprite.setState('default');
+                if (sprite !== undefined) {
+                    sprite.setState('default');
+                }
             }
         }, 600);
         // TODO remettre le defaut state nécessaire
@@ -169,14 +180,24 @@ export default function CharacterScript({ children }: Props) {
     const offsetY = 0.5;
 
     return (
-        <group position-y={characterOffsetY}>
-            <group ref={groupRef}>
-                <group ref={scaleRef} position-y={-offsetY}>
-                    <group position-y={offsetY}>
-                        <group ref={childRef}>{children}</group>
+        <Provider store={store}>
+            <group position-y={characterOffsetY}>
+                <group ref={groupRef}>
+                    <group ref={scaleRef} position-y={-offsetY}>
+                        <group position-y={offsetY}>
+                            <group ref={childRef}>{children}</group>
+                        </group>
                     </group>
                 </group>
             </group>
-        </group>
+        </Provider>
     );
-}
+};
+const dispatchProps = {
+    setLife: playerActions.setLife,
+    setPosition: playerActions.setPosition,
+};
+const mapStateToProps = (state: RootState) => ({
+    player: state.player,
+});
+export default connect(mapStateToProps, dispatchProps)(CharacterScriptTest);

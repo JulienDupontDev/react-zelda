@@ -1,6 +1,6 @@
-import * as countersConstants from './constants';
-import * as countersActions from './actions';
-import countersReducer from './reducer';
-import * as countersSelectors from './selectors';
+import * as playerConstants from './constants';
+import * as playerActions from './actions';
+import playerReducer from './reducer';
+import * as playerSelectors from './selectors';
 
-export { countersConstants, countersActions, countersSelectors, countersReducer };
+export { playerConstants, playerActions, playerSelectors, playerReducer };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AttackableRef } from 'src/@core/Attackable';
 import { Position } from '../@core/GameObject';
 import { InteractableRef } from '../@core/Interactable';
 import { MoveableRef } from '../@core/Moveable';
@@ -24,6 +25,7 @@ export default function PlayerScript() {
     const rightKey = useKeyPress(['ArrowRight', 'd']);
     const upKey = useKeyPress(['ArrowUp', 'w']);
     const downKey = useKeyPress(['ArrowDown', 's']);
+    const spaceKey = useKeyPress(['space']);
 
     useGameLoop(() => {
         const direction = {
@@ -82,6 +84,9 @@ export default function PlayerScript() {
                 (await getComponent<MoveableRef>('Moveable')?.move(nextPosition)) ||
                 (path.length === 1 && // try interaction on last step of path
                     (await getComponent<InteractableRef>('Interactable')?.interact(
+                        nextPosition
+                    )) &&
+                    (await getComponent<AttackableRef>('Attackable')?.interact(
                         nextPosition
                     )));
 
